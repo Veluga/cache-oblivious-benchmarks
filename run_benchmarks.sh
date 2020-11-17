@@ -4,7 +4,7 @@ cd /var/tmp
 
 sudo apt update -y
 sudo apt upgrade -y
-sudo apt install g++ make sendmail mutt -y
+sudo apt install cmake g++ make sendmail mutt -y
 
 git clone https://github.com/google/benchmark.git
 git clone https://github.com/google/googletest.git benchmark/googletest
