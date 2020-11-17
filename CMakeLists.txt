@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
-find_package(Catch2 REQUIRED)
 find_package(benchmark REQUIRED)
 
 project(matrix_cache LANGUAGES CXX)
@@ -18,6 +17,7 @@ include(Sanitizers.cmake)
 
 option(ENABLE_COVERAGE "Enable coverage" false)
 option(ENABLE_DEBUG "Enable debug." false)
+option(BUILD_TESTS "Build tests." false)
 
 if(ENABLE_COVERAGE)
   set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Set the build type." FORCE)
@@ -25,23 +25,26 @@ if(ENABLE_COVERAGE)
   append_coverage_compiler_flags()
 endif()
 
-add_executable(test_matrix_transpose app/test_matrix_transpose.cpp)
-target_link_libraries(test_matrix_transpose Catch2::Catch2)
-target_include_directories(test_matrix_transpose PUBLIC include)
-target_compile_options(test_matrix_transpose PUBLIC "-Wall")
-set_property(TARGET test_matrix_transpose PROPERTY CXX_STANDARD 17)
-
-add_executable(test_matrix_multiply app/test_matrix_multiply.cpp)
-target_link_libraries(test_matrix_multiply Catch2::Catch2)
-target_include_directories(test_matrix_multiply PUBLIC include)
-target_compile_options(test_matrix_multiply PUBLIC "-Wall")
-set_property(TARGET test_matrix_multiply PROPERTY CXX_STANDARD 17)
-
-add_executable(test_fft app/test_fft.cpp)
-target_link_libraries(test_fft Catch2::Catch2)
-target_include_directories(test_fft PUBLIC include)
-target_compile_options(test_fft PUBLIC "-Wall")
-set_property(TARGET test_fft PROPERTY CXX_STANDARD 17)
+if(BUILD_TESTS)
+  find_package(Catch2 REQUIRED)
+  add_executable(test_matrix_transpose app/test_matrix_transpose.cpp)
+  target_link_libraries(test_matrix_transpose Catch2::Catch2)
+  target_include_directories(test_matrix_transpose PUBLIC include)
+  target_compile_options(test_matrix_transpose PUBLIC "-Wall")
+  set_property(TARGET test_matrix_transpose PROPERTY CXX_STANDARD 17)
+  
+  add_executable(test_matrix_multiply app/test_matrix_multiply.cpp)
+  target_link_libraries(test_matrix_multiply Catch2::Catch2)
+  target_include_directories(test_matrix_multiply PUBLIC include)
+  target_compile_options(test_matrix_multiply PUBLIC "-Wall")
+  set_property(TARGET test_matrix_multiply PROPERTY CXX_STANDARD 17)
+  
+  add_executable(test_fft app/test_fft.cpp)
+  target_link_libraries(test_fft Catch2::Catch2)
+  target_include_directories(test_fft PUBLIC include)
+  target_compile_options(test_fft PUBLIC "-Wall")
+  set_property(TARGET test_fft PROPERTY CXX_STANDARD 17)
+endif()
 
 add_executable(rm_benchmark app/rm_benchmarks.cpp)
 target_link_libraries(rm_benchmark benchmark::benchmark)
