@@ -136,83 +136,261 @@ template <class T> void BM_fft_types(benchmark::State& state) {
 
 /* Matrix Transposition */
 
-//BENCHMARK(BM_naive_transpose)
-//	->Args({5, 5})
-//	->Args({25, 10})
-//	->Args({25, 100})
-//	->Args({250, 100})
-//	->Args({250, 1000})
-//	->Args({2500, 1000})
-//	->Args({2500, 10000})
-//	->Args({25000, 10000});
-//
-//BENCHMARK(BM_transpose)
-//	->Args({5, 5})
-//	->Args({25, 10})
-//	->Args({25, 100})
-//	->Args({250, 100})
-//	->Args({250, 1000})
-//	->Args({2500, 1000})
-//	->Args({2500, 10000})
-//	->Args({25000, 10000});
-//
-//BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::int8_t)->Args({512, 512});
-//BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::int16_t)->Args({512, 512});
-//BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::int32_t)->Args({512, 512});
-//BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::int64_t)->Args({512, 512});
-//BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::complex<std::int8_t>)->Args({512, 512});
-//BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::complex<std::int16_t>)->Args({512, 512});
-//BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::complex<std::int32_t>)->Args({512, 512});
-//BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::complex<std::int64_t>)->Args({512, 512});
-//
-//BENCHMARK_TEMPLATE(BM_transpose_types, std::int8_t)->Args({512, 512});
-//BENCHMARK_TEMPLATE(BM_transpose_types, std::int16_t)->Args({512, 512});
-//BENCHMARK_TEMPLATE(BM_transpose_types, std::int32_t)->Args({512, 512});
-//BENCHMARK_TEMPLATE(BM_transpose_types, std::int64_t)->Args({512, 512});
-//BENCHMARK_TEMPLATE(BM_transpose_types, std::complex<std::int8_t>)->Args({512, 512});
-//BENCHMARK_TEMPLATE(BM_transpose_types, std::complex<std::int16_t>)->Args({512, 512});
-//BENCHMARK_TEMPLATE(BM_transpose_types, std::complex<std::int32_t>)->Args({512, 512});
-//BENCHMARK_TEMPLATE(BM_transpose_types, std::complex<std::int64_t>)->Args({512, 512});
+// Naive transposition, varying sizes
+
+BENCHMARK(BM_naive_transpose)
+	->Args({5, 5})
+	->Args({5, 10})
+	->Args({10, 5})
+	->Args({10, 10})
+	->Args({50, 10})
+	->Args({10, 50})
+	->Args({50, 50})
+	->Args({50, 100})
+	->Args({100, 50})
+	->Args({100, 100})
+	->Args({100, 500})
+	->Args({500, 100})
+	->Args({500, 500})
+	->Args({500, 1000})
+	->Args({1000, 500})
+	->Args({1000, 1000})
+	->Args({1000, 5000})
+	->Args({5000, 1000})
+	->Args({5000, 5000})
+	->Args({5000, 10000})
+	->Args({10000, 5000})
+	->Args({10000, 10000});
+
+// Cache-oblivious transposition, varying sizes
+
+BENCHMARK(BM_transpose)
+	->Args({5, 5})
+	->Args({5, 10})
+	->Args({10, 5})
+	->Args({10, 10})
+	->Args({50, 10})
+	->Args({10, 50})
+	->Args({50, 50})
+	->Args({50, 100})
+	->Args({100, 50})
+	->Args({100, 100})
+	->Args({100, 500})
+	->Args({500, 100})
+	->Args({500, 500})
+	->Args({500, 1000})
+	->Args({1000, 500})
+	->Args({1000, 1000})
+	->Args({1000, 5000})
+	->Args({5000, 1000})
+	->Args({5000, 5000})
+	->Args({5000, 10000})
+	->Args({10000, 5000})
+	->Args({10000, 10000});
+
+// Naive transposition, varying types
+
+BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::int8_t)->Args({512, 512});
+BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::int8_t)->Args({512, 1024});
+BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::int8_t)->Args({1024, 512});
+
+BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::int16_t)->Args({512, 512});
+BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::int16_t)->Args({512, 1024});
+BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::int16_t)->Args({1024, 512});
+
+BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::int32_t)->Args({512, 512});
+BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::int32_t)->Args({512, 1024});
+BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::int32_t)->Args({1024, 512});
+
+BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::int64_t)->Args({512, 512});
+BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::int64_t)->Args({512, 1024});
+BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::int64_t)->Args({1024, 512});
+
+BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::complex<std::int8_t>)->Args({512, 512});
+BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::complex<std::int8_t>)->Args({512, 1024});
+BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::complex<std::int8_t>)->Args({1024, 512});
+
+BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::complex<std::int16_t>)->Args({512, 512});
+BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::complex<std::int16_t>)->Args({512, 1024});
+BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::complex<std::int16_t>)->Args({1024, 512});
+
+BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::complex<std::int32_t>)->Args({512, 512});
+BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::complex<std::int32_t>)->Args({512, 1024});
+BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::complex<std::int32_t>)->Args({1024, 512});
+
+BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::complex<std::int64_t>)->Args({512, 512});
+BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::complex<std::int64_t>)->Args({512, 1024});
+BENCHMARK_TEMPLATE(BM_naive_transpose_types, std::complex<std::int64_t>)->Args({1024, 512});
+
+// Cache-oblivious transposition, varying types
+
+BENCHMARK_TEMPLATE(BM_transpose_types, std::int8_t)->Args({512, 512});
+BENCHMARK_TEMPLATE(BM_transpose_types, std::int8_t)->Args({512, 1024});
+BENCHMARK_TEMPLATE(BM_transpose_types, std::int8_t)->Args({1024, 512});
+
+BENCHMARK_TEMPLATE(BM_transpose_types, std::int16_t)->Args({512, 512});
+BENCHMARK_TEMPLATE(BM_transpose_types, std::int16_t)->Args({512, 1024});
+BENCHMARK_TEMPLATE(BM_transpose_types, std::int16_t)->Args({1024, 512});
+
+BENCHMARK_TEMPLATE(BM_transpose_types, std::int32_t)->Args({512, 512});
+BENCHMARK_TEMPLATE(BM_transpose_types, std::int32_t)->Args({512, 1024});
+BENCHMARK_TEMPLATE(BM_transpose_types, std::int32_t)->Args({1024, 512});
+
+BENCHMARK_TEMPLATE(BM_transpose_types, std::int64_t)->Args({512, 512});
+BENCHMARK_TEMPLATE(BM_transpose_types, std::int64_t)->Args({512, 1024});
+BENCHMARK_TEMPLATE(BM_transpose_types, std::int64_t)->Args({1024, 512});
+
+BENCHMARK_TEMPLATE(BM_transpose_types, std::complex<std::int8_t>)->Args({512, 512});
+BENCHMARK_TEMPLATE(BM_transpose_types, std::complex<std::int8_t>)->Args({512, 1024});
+BENCHMARK_TEMPLATE(BM_transpose_types, std::complex<std::int8_t>)->Args({1024, 512});
+
+BENCHMARK_TEMPLATE(BM_transpose_types, std::complex<std::int16_t>)->Args({512, 512});
+BENCHMARK_TEMPLATE(BM_transpose_types, std::complex<std::int16_t>)->Args({512, 1024});
+BENCHMARK_TEMPLATE(BM_transpose_types, std::complex<std::int16_t>)->Args({1024, 512});
+
+BENCHMARK_TEMPLATE(BM_transpose_types, std::complex<std::int32_t>)->Args({512, 512});
+BENCHMARK_TEMPLATE(BM_transpose_types, std::complex<std::int32_t>)->Args({512, 1024});
+BENCHMARK_TEMPLATE(BM_transpose_types, std::complex<std::int32_t>)->Args({1024, 512});
+
+BENCHMARK_TEMPLATE(BM_transpose_types, std::complex<std::int64_t>)->Args({512, 512});
+BENCHMARK_TEMPLATE(BM_transpose_types, std::complex<std::int64_t>)->Args({512, 1024});
+BENCHMARK_TEMPLATE(BM_transpose_types, std::complex<std::int64_t>)->Args({1024, 512});
 
 /* Matrix Multiplication */
 
-//BENCHMARK(BM_naive_multiply)
-//	->Args({3, 3, 3})
-//	->Args({9, 9, 9})
-//	->Args({27, 27, 27})
-//	->Args({81, 81, 81})
-//	->Args({243, 243, 243})
-//	->Args({729, 729, 729})
-//	->Args({2187, 2187, 2187});
-//
-//BENCHMARK(BM_multiply)
-//	->Args({3, 3, 3})
-//	->Args({9, 9, 9})
-//	->Args({27, 27, 27})
-//	->Args({81, 81, 81})
-//	->Args({243, 243, 243})
-//	->Args({729, 729, 729})
-//	->Args({2187, 2187, 2187});
-//
-//BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::int8_t)->Args({243, 243, 243});
-//BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::int16_t)->Args({243, 243, 243});
-//BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::int32_t)->Args({243, 243, 243});
-//BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::int64_t)->Args({243, 243, 243});
-//BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::complex<std::int8_t>)->Args({243, 243, 243});
-//BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::complex<std::int16_t>)->Args({243, 243, 243});
-//BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::complex<std::int32_t>)->Args({243, 243, 243});
-//BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::complex<std::int64_t>)->Args({243, 243, 243});
-//
-//BENCHMARK_TEMPLATE(BM_multiply_types, std::int8_t)->Args({243, 243, 243});
-//BENCHMARK_TEMPLATE(BM_multiply_types, std::int16_t)->Args({243, 243, 243});
-//BENCHMARK_TEMPLATE(BM_multiply_types, std::int32_t)->Args({243, 243, 243});
-//BENCHMARK_TEMPLATE(BM_multiply_types, std::int64_t)->Args({243, 243, 243});
-//BENCHMARK_TEMPLATE(BM_multiply_types, std::complex<std::int8_t>)->Args({243, 243, 243});
-//BENCHMARK_TEMPLATE(BM_multiply_types, std::complex<std::int16_t>)->Args({243, 243, 243});
-//BENCHMARK_TEMPLATE(BM_multiply_types, std::complex<std::int32_t>)->Args({243, 243, 243});
-//BENCHMARK_TEMPLATE(BM_multiply_types, std::complex<std::int64_t>)->Args({243, 243, 243});
+// Naive multiplication, varying sizes
+
+BENCHMARK(BM_naive_multiply)
+	->Args({8, 8, 8})
+	->Args({16, 4, 16})
+	->Args({4, 16, 4})
+	->Args({16, 16, 16})
+	->Args({32, 8, 32})
+	->Args({8, 32, 8})
+	->Args({32, 32, 32})
+	->Args({64, 16, 64})
+	->Args({16, 64, 16})
+	->Args({64, 64, 64})
+	->Args({128, 32, 128})
+	->Args({32, 128, 32})
+	->Args({128, 128, 128})
+	->Args({256, 64, 256})
+	->Args({64, 256, 64})
+	->Args({256, 256, 256})
+	->Args({512, 128, 512})
+	->Args({128, 512, 128})
+	->Args({512, 512, 512})
+	->Args({1024, 256, 1024})
+	->Args({256, 1024, 256})
+	->Args({1024, 1024, 1024})
+	->Args({2048, 512, 2048})
+	->Args({512, 2048, 512})
+	->Args({2048, 2048, 2048})
+	->Args({4096, 1024, 4096})
+	->Args({1024, 4096, 1024});
+
+// Cache-oblivious multiplication, varying sizes
+
+BENCHMARK(BM_multiply)
+	->Args({8, 8, 8})
+	->Args({16, 4, 16})
+	->Args({4, 16, 4})
+	->Args({16, 16, 16})
+	->Args({32, 8, 32})
+	->Args({8, 32, 8})
+	->Args({32, 32, 32})
+	->Args({64, 16, 64})
+	->Args({16, 64, 16})
+	->Args({64, 64, 64})
+	->Args({128, 32, 128})
+	->Args({32, 128, 32})
+	->Args({128, 128, 128})
+	->Args({256, 64, 256})
+	->Args({64, 256, 64})
+	->Args({256, 256, 256})
+	->Args({512, 128, 512})
+	->Args({128, 512, 128})
+	->Args({512, 512, 512})
+	->Args({1024, 256, 1024})
+	->Args({256, 1024, 256})
+	->Args({1024, 1024, 1024})
+	->Args({2048, 512, 2048})
+	->Args({512, 2048, 512})
+	->Args({2048, 2048, 2048})
+	->Args({4096, 1024, 4096})
+	->Args({1024, 4096, 1024});
+
+// Naive multiplication, varying types
+
+BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::int8_t)->Args({256, 256, 256});
+BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::int8_t)->Args({1024, 64, 1024});
+BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::int8_t)->Args({64, 1024, 64});
+
+BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::int16_t)->Args({256, 256, 256});
+BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::int16_t)->Args({1024, 64, 1024});
+BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::int16_t)->Args({64, 1024, 64});
+
+BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::int32_t)->Args({256, 256, 256});
+BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::int32_t)->Args({1024, 64, 1024});
+BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::int32_t)->Args({64, 1024, 64});
+
+BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::int64_t)->Args({256, 256, 256});
+BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::int64_t)->Args({1024, 64, 1024});
+BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::int64_t)->Args({64, 1024, 64});
+
+BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::complex<std::int8_t>)->Args({256, 256, 256});
+BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::complex<std::int8_t>)->Args({1024, 64, 1024});
+BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::complex<std::int8_t>)->Args({64, 1024, 64});
+
+BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::complex<std::int16_t>)->Args({256, 256, 256});
+BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::complex<std::int16_t>)->Args({1024, 64, 1024});
+BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::complex<std::int16_t>)->Args({64, 1024, 64});
+
+BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::complex<std::int32_t>)->Args({256, 256, 256});
+BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::complex<std::int32_t>)->Args({1024, 64, 1024});
+BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::complex<std::int32_t>)->Args({64, 1024, 64});
+
+BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::complex<std::int64_t>)->Args({256, 256, 256});
+BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::complex<std::int64_t>)->Args({1024, 64, 1024});
+BENCHMARK_TEMPLATE(BM_naive_multiply_types, std::complex<std::int64_t>)->Args({64, 1024, 64});
+
+// Cache-oblivious multiplication, varying types
+
+BENCHMARK_TEMPLATE(BM_multiply_types, std::int8_t)->Args({256, 256, 256});
+BENCHMARK_TEMPLATE(BM_multiply_types, std::int8_t)->Args({1024, 64, 1024});
+BENCHMARK_TEMPLATE(BM_multiply_types, std::int8_t)->Args({64, 1024, 64});
+
+BENCHMARK_TEMPLATE(BM_multiply_types, std::int16_t)->Args({256, 256, 256});
+BENCHMARK_TEMPLATE(BM_multiply_types, std::int16_t)->Args({1024, 64, 1024});
+BENCHMARK_TEMPLATE(BM_multiply_types, std::int16_t)->Args({64, 1024, 64});
+
+BENCHMARK_TEMPLATE(BM_multiply_types, std::int32_t)->Args({256, 256, 256});
+BENCHMARK_TEMPLATE(BM_multiply_types, std::int32_t)->Args({1024, 64, 1024});
+BENCHMARK_TEMPLATE(BM_multiply_types, std::int32_t)->Args({64, 1024, 64});
+
+BENCHMARK_TEMPLATE(BM_multiply_types, std::int64_t)->Args({256, 256, 256});
+BENCHMARK_TEMPLATE(BM_multiply_types, std::int64_t)->Args({1024, 64, 1024});
+BENCHMARK_TEMPLATE(BM_multiply_types, std::int64_t)->Args({64, 1024, 64});
+
+BENCHMARK_TEMPLATE(BM_multiply_types, std::complex<std::int8_t>)->Args({256, 256, 256});
+BENCHMARK_TEMPLATE(BM_multiply_types, std::complex<std::int8_t>)->Args({1024, 64, 1024});
+BENCHMARK_TEMPLATE(BM_multiply_types, std::complex<std::int8_t>)->Args({64, 1024, 64});
+
+BENCHMARK_TEMPLATE(BM_multiply_types, std::complex<std::int16_t>)->Args({256, 256, 256});
+BENCHMARK_TEMPLATE(BM_multiply_types, std::complex<std::int16_t>)->Args({1024, 64, 1024});
+BENCHMARK_TEMPLATE(BM_multiply_types, std::complex<std::int16_t>)->Args({64, 1024, 64});
+
+BENCHMARK_TEMPLATE(BM_multiply_types, std::complex<std::int32_t>)->Args({256, 256, 256});
+BENCHMARK_TEMPLATE(BM_multiply_types, std::complex<std::int32_t>)->Args({1024, 64, 1024});
+BENCHMARK_TEMPLATE(BM_multiply_types, std::complex<std::int32_t>)->Args({64, 1024, 64});
+
+BENCHMARK_TEMPLATE(BM_multiply_types, std::complex<std::int64_t>)->Args({256, 256, 256});
+BENCHMARK_TEMPLATE(BM_multiply_types, std::complex<std::int64_t>)->Args({1024, 64, 1024});
+BENCHMARK_TEMPLATE(BM_multiply_types, std::complex<std::int64_t>)->Args({64, 1024, 64});
 
 /* Fast Fourier Transform */
+
+// Naive FFT, varying sizes
 
 BENCHMARK(BM_naive_fft)
 	->Args({8})
@@ -223,6 +401,8 @@ BENCHMARK(BM_naive_fft)
 	->Args({8 << 15})
 	->Args({8 << 18});
 
+// Cache-oblivious FFT, varying types
+
 BENCHMARK(BM_fft)
 	->Args({8})
 	->Args({8 << 3})
@@ -232,14 +412,20 @@ BENCHMARK(BM_fft)
 	->Args({8 << 15})
 	->Args({8 << 18});
 
+// Naive FFT, varying types
+
 BENCHMARK_TEMPLATE(BM_naive_fft_types, std::int8_t)->Args({4096});
 BENCHMARK_TEMPLATE(BM_naive_fft_types, std::int16_t)->Args({4096});
 BENCHMARK_TEMPLATE(BM_naive_fft_types, std::int32_t)->Args({4096});
 BENCHMARK_TEMPLATE(BM_naive_fft_types, std::int64_t)->Args({4096});
+BENCHMARK_TEMPLATE(BM_naive_fft_types, long double)->Args({4096});
+
+// Cache-oblivious, varying types
 
 BENCHMARK_TEMPLATE(BM_fft_types, std::int8_t)->Args({4096});
 BENCHMARK_TEMPLATE(BM_fft_types, std::int16_t)->Args({4096});
 BENCHMARK_TEMPLATE(BM_fft_types, std::int32_t)->Args({4096});
 BENCHMARK_TEMPLATE(BM_fft_types, std::int64_t)->Args({4096});
+BENCHMARK_TEMPLATE(BM_fft_types, long double)->Args({4096});
 
 BENCHMARK_MAIN();
