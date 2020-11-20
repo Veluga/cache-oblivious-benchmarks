@@ -13,7 +13,7 @@ template <class T>
 std::unique_ptr<T[]> generate_random_vector(std::size_t n, int seed = 0xDEADBEEF) {
   static std::random_device dev;
   static std::mt19937 rng(dev());
-  static std::uniform_real_distribution<> dis(-1.0, 1.0);
+  static std::uniform_real_distribution<> dis(-1000000.0, 1000000.0);
 
 	rng.seed(seed);
 

@@ -8,7 +8,7 @@ template <class T>
 std::unique_ptr<T> random_matrix(std::size_t m, std::size_t n, int seed = 0xDEADBEEF) {
   static std::random_device dev;
   static std::mt19937 rng(dev());
-  static std::uniform_real_distribution<> dis(-1.0, 1.0);
+  static std::uniform_real_distribution<> dis(-1000000., 1000000.);
 
 	rng.seed(seed);
 
