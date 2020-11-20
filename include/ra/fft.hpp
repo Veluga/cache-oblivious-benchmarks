@@ -60,8 +60,18 @@ void naive_fft(T* x, std::size_t n)
 template <class T>
 void forward_fft(T* x, std::size_t n)
 {
-	if (n <= 2) {
-		return naive_fft<T>(x, n);
+	if (n <= 4) {
+		auto base_twiddle_factor = std::polar<typename T::value_type>(1.0, -2 * pi<typename T::value_type> / n);
+		auto res = std::make_unique<T[]>(n);
+		for (int k = 0; k < n; ++k) {
+			for (int i = 0; i < n; ++i) {
+				res[k] += x[i] * std::pow<typename T::value_type>(base_twiddle_factor, std::complex<typename T::value_type>(k*i));
+			}
+		}
+		for (int i = 0; i < n; ++i) {
+			x[i] = res[i];
+		}
+		return;
 	}
 
 	int n1 = std::pow(2, std::ceil(std::log2(n)/2));
